@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <title>Lista de vehículos - Renta Car</title>
+  <link rel="stylesheet" href="assets/css/vendor.bundle.css">
+  <link rel="stylesheet" href="assets/css/app.bundle.css">
+  <link rel="stylesheet" href="assets/css/theme-a.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css" />
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .card.card-data-tables .dataTables_wrapper .dataTables_filter {
+      display: block;
+    }
+
+    input[type=search] {
+      -webkit-appearance: auto !important;
+    }
+
+    #footer_wrapper {
+      bottom: 0 !important;
+      position: fixed;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="./js/sesion.js"></script>
+  <script>sesion();</script>
+  <script src="./js/buscar_usuario.js"></script>
+  <script src="./js/cerrar_sesion.js"></script>
+  <script>buscar_usuario(localStorage.getItem('id_user'));</script>
+  <div id="app_wrapper">
+    <header id="app_topnavbar-wrapper">
+      <nav role="navigation" class="navbar topnavbar">
+        <div class="nav-wrapper">
+          <ul class="nav navbar-nav pull-left left-menu">
+            <li class="app_menu-open">
+              <a href="javascript:void(0)" data-toggle-state="app_sidebar-left-open" data-key="leftSideBar">
+                <i class="zmdi zmdi-menu"></i>
+              </a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+            <li class="dropdown avatar-menu">
+              <a href="javascript:void(0)" data-toggle="dropdown" aria-expanded="false">
+                <span class="meta">
+                  <span class="avatar">
+                    <!-- <img src="assets/img/profiles/02.jpg" alt="" class="img-circle max-w-35">
+                    <i class="badge mini success status"></i> -->
+                  </span>
+                  <span class="name"></span>
+                  <span class="caret"></span>
+                </span>
+              </a>
+              <ul class="dropdown-menu btn-primary dropdown-menu-right">
+                <li>
+                  <a href="profile.html"><i class="zmdi zmdi-account"></i> Profile</a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" id="signout-button"><i class="zmdi zmdi-sign-in"></i>
+                    Sign Out</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+
+    <aside id="app_sidebar-left">
+      <div id="logo_wrapper">
+        <ul>
+          <li class="logo-icon">
+            <a href="index.html">
+              <div class="logo">
+                <img src="assets/img/logo/logo-icon.png" alt="Logo">
+              </div>
+              <h1 class="brand-text">Renta Car</h1>
+            </a>
+          </li>
+          <li class="menu-icon">
+            <a href="javascript:void(0)" role="button" data-toggle-state="app_sidebar-menu-collapsed"
+              data-key="leftSideBar">
+              <i class="mdi mdi-backburger"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <nav id="app_main-menu-wrapper" class="fadeInLeft scrollbar">
+        <div class="sidebar-inner sidebar-push">
+          <ul class="nav nav-pills nav-stacked">
+            <li class="sidebar-header">MÓDULOS</li>
+
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+    </aside>
+    <section id="content_outer_wrapper">
+      <div id="content_wrapper" class="card-overlay">
+        <div id="header_wrapper" class="header-md ecom-header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-xs-12">
+                <header id="header">
+                  <h1>Catálogo de vehiculos</h1>
+                  <ol class="breadcrumb">
+                    <li><a href="index.html">Vehículos</a></li>
+                    <li><a href="rental.html">Catálogo de vehiculos</a></li>
+                  </ol>
+                </header>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="content" class="container-fluid">
+          <div class="content-body">
+            <div class="row">
+							<div class="col-xs-12 col-sm-3">
+								<div class="card sales-card">
+									<header class="card-heading card-heading-total">
+										<h2 class="card-title">Total Carros</h2>
+									</header>
+									<div class="card-body totalCars">
+										<div class="row">
+											<div class="col-sm-12">
+												<h2 id="count-total-cars" class="card-count text-center"></h2>
+												<p class="text-center" style="color: #9499A1;"> Vehículos en total</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-3">
+								<div class="card sales-card">
+									<header class="card-heading card-heading-car-rents">
+										<h2 class="card-title">Carros Rentados</h2>
+									</header>
+									<div class="card-body carRents">
+										<div class="row">
+											<div class="col-sm-12">
+												<h2 id="count-rents" class="card-count text-center"></h2>
+												<p class="text-center" style="color: #9499A1;"> Vehículos rentados</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-3">
+								<div class="card sales-card">
+									<header class="card-heading card-heading-car-avaiable">
+										<h2 class="card-title">Carros Disponibles</h2>
+									</header>
+									<div class="card-body carsAvailable">
+										<div class="row">
+											<div class="col-sm-12">
+												<h2 id="count-available" class="card-count text-center"></h2>
+												<p class="text-center" style="color: #9499A1;"> Vehículos disponibles
+													para renta</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-3">
+								<div class="card sales-card">
+									<header class="card-heading card-heading-maintenance">
+										<h2 class="card-title">Carros Mantenimiento</h2>
+									</header>
+									<div class="card-body carsMant">
+										<div class="row">
+											<div class="col-sm-12">
+												<h2 id="count-maintenance" class="card-count text-center"></h2>
+												<p class="text-center" style="color: #9499A1;"> Vehículos en
+													mantenimiento</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="card card-data-tables">                  
+                  <div class="card-body p-0">
+                    <header class="card-heading">
+                      <h2 class="card-title">Administrar Vehículos</h2>
+                      <small class="dataTables_info"></small>
+                    </header>
+                    <div class="table-responsive">
+                      <table id="productsTable" class="mdl-data-table product-table m-t-30" cellspacing="0"
+                        width="100%">
+                        <thead>
+                          <tr>
+                            <th data-orderable="true" class="col-xs-1">ID Vehiculo</th>
+                            <th data-orderable="true" class="col-xs-2">Marca</th>
+                            <th data-orderable="true" class="col-xs-2">Modelo</th>
+                            <th data-orderable="true" class="col-xs-2">Año</th>
+                            <th data-orderable="true" class="col-xs-2">Color</th>
+                            <th data-orderable="true" class="col-xs-2">Placa</th>
+                            <th data-orderable="true" class="col-xs-2">Millaje</th>
+                            <th data-orderable="true" class="col-xs-1">Estado</th>
+                            <th data-orderable="true" class="col-xs-2">Imagen</th>
+                            <th data-orderable="true" class="col-xs-2">Recargo</th>
+                            <th data-orderable="true" class="col-xs-2">Creado</th>
+                            <th data-orderable="true" class="col-xs-2">Acciones</th>
+                          </tr>
+                        </thead>
+                        <!-- <div id="result" style="display: flex; justify-content: space-between;">
+                        </div> -->
+                        <tbody id="vehicleInfo"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <footer id="footer_wrapper">
+          <div class="footer-content">            
+            <div class="row">
+              <div class="col-xs-8">
+                <p class="copy">&copy; Copyright <time class="year"></time> Renta Car - All Rights Reserved</p>
+              </div>
+              <div class="col-xs-4">
+                <ul class="social">
+                  <li>
+                    <a href="javascript:void(0)"> </a>
+                  </li>
+                  <li>
+                    <a href="javascript:void(0)"> </a>
+                  </li>
+                  <li>
+                    <a href="javascript:void(0)"> </a>
+                  </li>
+                  <li>
+                    <a href="javascript:void(0)"> </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
+    </section>
+  </div>
+  <button class="btn btn-primary btn-fab animate-fab" style="position: fixed;bottom: 20px;right: 20px;z-index: 99;"
+    data-toggle="modal" data-target="#product_add_modal"><i class="zmdi zmdi-plus"></i></button>
+  <div class="modal fade" id="product_add_modal" tabindex="-1" role="dialog" aria-labelledby="tab_modal">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header p-b-15">
+
+          <h4 class="modal-title">Detalles del vehículo</h4>
+          <ul class="card-actions icons right-top">
+
+            <a href="javascript:void(0)" data-dismiss="modal" class="text-white" aria-label="Close">
+              <i class="zmdi zmdi-close"></i>
+            </a>
+
+          </ul>
+        </div>
+        <div class="modal-body p-0">
+          <div class="tabpanel">
+            <ul class="nav nav-tabs p-0">
+              <li class="active" role="presentation"><a href="#product_add_general" data-toggle="tab"
+                  aria-expanded="true">Información</a></li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane fadeIn active" id="product_add_general">
+              <div class="card card p-20 p-t-10 m-b-0">
+                <div class="card-body">
+                  <form class="form-horizontal">
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Marca</label>
+                      <input type="text" class="form-control" id="marca">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Modelo</label>
+                      <input type="text" class="form-control" id="modelo">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Año</label>
+                      <input type="text" class="form-control" id="anio">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Color</label>
+                      <input type="text" class="form-control" id="color">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Placa</label>
+                      <input type="text" class="form-control" id="placa">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Millaje</label>
+                      <input type="text" class="form-control" id="millaje">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Estado</label>
+                      <input type="text" class="form-control" id="estado">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Link de imagen</label>
+                      <input type="text" class="form-control" id="linkImagen">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Recargo</label>
+                      <input type="text" class="form-control" id="recargo">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Tipo de vehículo</label>
+                      <input type="text" class="form-control" id="type_vehicle">
+                    </div>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Estado</label>
+                      <input type="text" class="form-control" id="status">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="createButton">Añadir Vehículo</button>
+          </div>
+        </div>
+        <!-- modal-content -->
+      </div>
+      <!-- modal-dialog -->
+    </div>
+    <script>
+      document.getElementById('signout-button').addEventListener('click', function () {
+        cerrar_sesion();
+      });
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="assets/js/vendor.bundle.js"></script>
+    <script src="assets/js/app.bundle.js"></script>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js"></script>
+
+    <script src="./js/validar_permisos.js"></script>
+    <script src="./js/detalle_carros.js"></script>
+    <script src="./js/generar_lista_carros.js"></script>
+    <script src="./js/crear_vehiculo.js"></script>
+    <script src="./js/eliminar_vehiculo.js"></script>
+    <script src="./js/editar_vehiculo.js"></script>
+    <script>
+      generar_menu(localStorage.getItem('id_user'));
+    </script>
+</body>
+
+</html>
